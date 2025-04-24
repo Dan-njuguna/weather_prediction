@@ -11,11 +11,39 @@ HaliYaAnga is a project that demonstrates the integration of machine learning pi
 
 ## 🛠️ Getting Started
 
-To get started with HaliYaAnga, refer to the repository documentation and examples provided. Follow the step-by-step guides to set up your environment, run the workflows, and explore the capabilities of the project.
+To get started with HaliYaAnga, follow these steps:
 
-## 📚 Learn More
+### Prerequisites
 
-For detailed information, visit the repository documentation or explore the examples to see how HaliYaAnga can help streamline your machine learning workflows.
+1. **Initialize DVC**: Run the following command to initialize a DVC repository:
+    ```bash
+    dvc init
+    ```
+    This sets up DVC in your project directory.
+
+2. **Add Stages for Data Versioning**:
+    - Add a preprocessing stage:
+      ```bash
+      dvc stage add -n preprocess -d preprocess_dataset.py -d raw_dataset/weather.csv -d utils_and_constants.py -o processed_dataset/weather.csv python3 preprocess_dataset.py
+      ```
+    - Add a training stage:
+      ```bash
+      dvc stage add -n train -d metrics_and_plots.py -d model.py -d processed_dataset/weather.csv -d train.py -d utils_and_constants.py -o metrics.json -o confusion_matrix.png python3 train.py
+      ```
+
+3. **Reproduce Pipelines**: Use the following command to execute the pipeline and ensure all stages are run:
+    ```bash
+    dvc repro
+    ```
+
+4. **Track Changes with Git**: After adding stages, track the changes by running:
+    ```bash
+    git add dvc.yaml
+    ```
+
+### Explore the Project
+
+Refer to the repository documentation and examples provided to set up your environment, run the workflows, and explore the capabilities of the project.
 
 ---
 

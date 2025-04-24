@@ -3,6 +3,7 @@ from typing import List
 import pandas as pd
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import StandardScaler
+import os
 
 from utils_and_constants import (
     DROP_COLNAMES,
@@ -107,6 +108,7 @@ def main():
     # Write processed dataset
     weather_labels = weather[TARGET_COLUMN]
     weather = pd.concat([weather_features_processed, weather_labels], axis=1)
+    os.makedirs(os.path.dirname(PROCESSED_DATASET), exist_ok=True)
     weather.to_csv(PROCESSED_DATASET, index=None)
 
 
