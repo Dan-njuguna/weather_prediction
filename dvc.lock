@@ -13,8 +13,8 @@ stages:
       size: 2701130
     - path: utils_and_constants.py
       hash: md5
-      md5: 90ebc4e2cc7adf4c4b6f34d2fae66a48
-      size: 388
+      md5: 7bb60a1e77b92dd82bea4b1eb8887cbe
+      size: 1560
     outs:
     - path: processed_dataset/weather.csv
       hash: md5
@@ -25,30 +25,58 @@ stages:
     deps:
     - path: metrics_and_plots.py
       hash: md5
-      md5: 7ad5b30b7180118b579bd5ce661e5246
-      size: 378
+      md5: 68673e630a07bbfd82327ad155cba9e7
+      size: 992
     - path: model.py
       hash: md5
-      md5: 8e9728601241a7b1d6fb6d1cd018e966
-      size: 885
+      md5: 8ebcde4f2b53a880245c4267906e19b0
+      size: 1032
     - path: processed_dataset/weather.csv
       hash: md5
       md5: 1dea080f8f73483cabd710f788ba0143
       size: 10501985
     - path: train.py
       hash: md5
-      md5: 44717794752f7d6f4ea63a303d467466
-      size: 935
+      md5: b7d4278d6c3a17a5650c470c9de2c9d9
+      size: 977
     - path: utils_and_constants.py
       hash: md5
-      md5: 90ebc4e2cc7adf4c4b6f34d2fae66a48
-      size: 388
+      md5: 7bb60a1e77b92dd82bea4b1eb8887cbe
+      size: 1560
     outs:
-    - path: confusion_matrix.png
-      hash: md5
-      md5: c23f8ff569c098c20a0b7afb8fba05c3
-      size: 15337
     - path: metrics.json
       hash: md5
-      md5: ec916b9800512aebcd3824504c316d48
-      size: 77
+      md5: 4ea2f49411478deeb4c30942b9205751
+      size: 76
+    - path: predictions.csv
+      hash: md5
+      md5: 7d13e304b7210349a6c715ac48d95fb4
+      size: 25027
+    - path: roc_curve.csv
+      hash: md5
+      md5: de37fe8b7e9331d50d5d6cbd465c10ec
+      size: 213
+  hp_tune:
+    cmd: python3 hp_tuning.py
+    deps:
+    - path: hp_config.json
+      hash: md5
+      md5: 6abe91338281f185a1a2543317e44487
+      size: 92
+    - path: hp_tuning.py
+      hash: md5
+      md5: 63ee50cd67cf2cc0949e0a9b7a9153c2
+      size: 1232
+    - path: processed_dataset/weather.csv
+      hash: md5
+      md5: 1dea080f8f73483cabd710f788ba0143
+      size: 10501985
+    - path: utils_and_constants.py
+      hash: md5
+      md5: 7bb60a1e77b92dd82bea4b1eb8887cbe
+      size: 1560
+    outs:
+    - path: hp_tuning_results.md
+      hash: md5
+      md5: e16fda0df241b9a2965d996d175d0575
+      size: 1198
