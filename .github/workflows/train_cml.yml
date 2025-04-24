@@ -20,7 +20,10 @@ jobs:
 
       # Setup CML GitHub Action
       - name: Setup CML
-        uses: iterative/setup-cml@v1
+        uses: iterative/setup-cml@v2
+        with:
+          version: latest
+
     
       - name: Install dependencies
         run: |
