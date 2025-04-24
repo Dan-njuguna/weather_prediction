@@ -1,4 +1,4 @@
-name: model-training
+name: train
 
 on:
   pull_request:
@@ -7,7 +7,8 @@ on:
 permissions: write-all
 
 jobs:
-  train_and_report_eval_performance:
+  train_and_publish_report:
+    if: startsWith(github.head_ref, 'train/')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 
@@ -18,35 +19,24 @@ jobs:
         with:
           python-version: 3.9
 
-      # Setup CML GitHub Action
+      - name: Setup DVC
+        uses: iterative/setup-dvc@v1
+
       - name: Setup CML
-        uses: iterative/setup-cml@v2
-        with:
-          version: latest
+        uses: iterative/setup-cml@v1
 
-    
       - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
+        run: pip install -r requirements.txt
 
-      - name: Process dataset
+      - name: Run DVC pipeline
         run: |
-          # Preprocess dataset
-          python3 preprocess_dataset.py
-          
-      - name: Train model
-        run: |
-          python3 train.py
-
-      - name: Write CML report
+          dvc pull
+          dvc repro train
+      
+      - name: Create CML report
         env:
           REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Add metrics data to markdown
-          cat metrics.json >> model_eval_report.md
-          
-          # Add confusion matrix plot to markdown
-          echo "![confusion matrix plot](./confusion_matrix.png)" >> model_eval_report.md
-
-          # Create comment from markdown report
-          cml comment create model_eval_report.md
+          git fetch --prune
+          dvc metrics diff --md main >> metrics_compare.md
+          cml comment create metrics_compare.md
