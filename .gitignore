@@ -10,3 +10,6 @@ __pycache__/
 *.pyo
 *.pyd
 *.db
+metrics_diff.md
+rfc_best_params.json
+hp_tuning_results.md
