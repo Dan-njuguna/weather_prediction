@@ -30,10 +30,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Process dataset
-        run: |          
-          # Ensure the processed_dataset directory exists
-          mkdir -p processed_dataset
-          
+        run: |
           # Preprocess dataset
           python3 preprocess_dataset.py
           
