@@ -1,0 +1,51 @@
+name: hp-tuning
+
+on:
+  pull_request:
+    branches: main
+
+permissions: write-all
+
+jobs:
+  hp_tune:
+    # Only run job if the current repository
+    # starts with the right prefix
+    if: startsWith(github.head_ref, 'hp_tune/')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 
+        uses: actions/checkout@v3
+      
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+
+      - name: Setup DVC
+        uses: iterative/setup-dvc@v1
+
+      - name: Setup CML
+        uses: iterative/setup-cml@v1
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run DVC pipeline
+        run: |
+          dvc repro -f hp_tune
+      
+      - name: Create training branch
+        env:
+          REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Finish the create pull request command
+          cml pr create \
+          --user-email hp-bot@cicd.ai \
+          --user-name HPBot \
+          --message "HP tuning" \
+          # Write the new head branch name
+          --branch train/${{ github.sha }} \
+          # Write the target branch name
+          --target-branch main \
+          # Commit the hyperparameter job output file
+          -o rfc_best_params.json
